@@ -78,42 +78,29 @@ class Image:
         
         return avg_diff_array, stddev_diff_array
 
+if __name__ == '__main__':
+    img1 = Image('https://cf.shopee.vn/file/b4af57597710a332afd293c40963b52f') # chat spam img 1
+    img2 = Image('https://cf.shopee.vn/file/263ec692d4a401bdc9bc170a0ab3cce0') # chat spam img 2
+    img3 = Image('https://cf.shopee.vn/file/be59f4b353e7ef7350005203378734d6') # chat non-spam img
+    img4 = Image('https://cf.shopee.sg/file/3aec17f4c5e51b54f37096ea62f31abc') # adidas pants image
+    img5 = Image('https://cf.shopee.vn/file/aafd3e625aaad3265ca0544b976197ab') # chat non-spam img
 
-img1 = Image('https://cf.shopee.vn/file/b4af57597710a332afd293c40963b52f') # chat spam img 1
-img2 = Image('https://cf.shopee.vn/file/263ec692d4a401bdc9bc170a0ab3cce0') # chat spam img 2
-img3 = Image('https://cf.shopee.vn/file/be59f4b353e7ef7350005203378734d6') # chat non-spam img
-img4 = Image('https://cf.shopee.sg/file/3aec17f4c5e51b54f37096ea62f31abc') # adidas pants image
-img5 = Image('https://cf.shopee.vn/file/aafd3e625aaad3265ca0544b976197ab') # chat non-spam img
+    c_diff_similar, c_stddev_similar = Image.get_color_diff(img1, img2, 20, 20)
+    print('similar img')
+    print(c_diff_similar)
+    print(c_stddev_similar)
 
-c_diff_similar, c_stddev_similar = Image.get_color_diff(img1, img2, 20, 20)
-print('similar img')
-print(c_diff_similar)
-print(c_stddev_similar)
+    c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img3, 20, 20)
+    print('non-similar img')
+    print(c_diff_non_similar)
+    print(c_stddev_non_similar)
 
-c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img3, 20, 20)
-print('non-similar img')
-print(c_diff_non_similar)
-print(c_stddev_non_similar)
+    c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img4, 20, 20)
+    print('non-similar img')
+    print(c_diff_non_similar)
+    print(c_stddev_non_similar)
 
-c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img4, 20, 20)
-print('non-similar img')
-print(c_diff_non_similar)
-print(c_stddev_non_similar)
-
-c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img5, 20, 20)
-print('non-similar img')
-print(c_diff_non_similar)
-print(c_stddev_non_similar)
-
-# test1 = io.imread('https://cf.shopee.vn/file/b4af57597710a332afd293c40963b52f')
-
-# width = len(test1[0])
-# height = len(test1)
-
-# c0_matrix = np.array([[pixel[0] for pixel in row] for row in test1])
-# c1_matrix = np.array([[pixel[1] for pixel in row] for row in test1])
-# c2_matrix = np.array([[pixel[2] for pixel in row] for row in test1])
-
-# print(type(c0_matrix))
-
-# test2 = io.imread('https://cf.shopee.vn/file/263ec692d4a401bdc9bc170a0ab3cce0')
+    c_diff_non_similar, c_stddev_non_similar = Image.get_color_diff(img1, img5, 20, 20)
+    print('non-similar img')
+    print(c_diff_non_similar)
+    print(c_stddev_non_similar)
