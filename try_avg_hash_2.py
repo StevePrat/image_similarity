@@ -153,9 +153,16 @@ def img_hash_processing_function(img_id_list: List[str]) -> Dict[str, imagehash.
     new_images = get_images_wrapper(new_img_urls)
 
     hash_list: List[imagehash.ImageHash] = []
-    for img in new_images:
+    for i, img in enumerate(new_images):
         if isinstance(img, Image.Image):
-            hash_list.append(imagehash.average_hash(img, 16))
+            try:
+                img_hash = imagehash.average_hash(img, 16)
+            except Exception as e:
+                print('Error occured when computing hash for', images_to_download[i])
+                print(e)
+                hash_list.append(None)
+            else:
+                hash_list.append(img_hash)
         else:
             hash_list.append(None)
     
@@ -206,12 +213,12 @@ def main() -> None:
             img_hash_map: Dict[str, imagehash.ImageHash]
             if img_hash_map is None:
                 print('No new images in this part')
-                print('Part {} done'.format(i+1))
+                print('[{}] Part {} done'.format(datetime.datetime.now(), i+1))
                 continue
 
             img_hash_map = {k: v for k, v in img_hash_map.items() if v is not None}
             update_stored_hash(img_hash_map)
-            print('Part {} done'.format(i+1))
+            print('[{}] Part {} done'.format(datetime.datetime.now(), i+1))
 
 if __name__ == '__main__':
     assert options.reg is not None
