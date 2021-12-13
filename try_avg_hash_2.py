@@ -143,7 +143,6 @@ def get_stored_hashes(img_id_list: Iterable[str]) -> Dict[str, imagehash.ImageHa
     return img_hash_map
 
 def img_hash_processing_function(img_id_list: List[str]) -> Dict[str, imagehash.ImageHash]:
-    print('Reading stored hashes')
     already_exist_hash_map = get_stored_hashes(img_id_list)
 
     images_to_download = [k for k, v in already_exist_hash_map.items() if v is None]
