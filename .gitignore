@@ -1,3 +1,5 @@
 get_all_img.py
 get_cover_img*
 stored_hash/*
+credentials.json
+token.json
