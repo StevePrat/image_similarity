@@ -195,7 +195,9 @@ def update_stored_hash(img_hash_map: Dict[str, imagehash.ImageHash]) -> None:
 def batch_img_id_generator(file_name_list: Iterable[str], split_size: int) -> List[str]:
     for file_name in file_name_list:
         df = pd.read_csv(TO_CHECK_FOLDER + file_name, names=['grass_region','item_id','img_id'])
-        img_id_list = df['img_id'].unique().tolist()
+        img_id_list = df['img_id'].unique()
+        img_id_list.sort()
+        img_id_list = img_id_list.tolist()
         num_of_splits = len(img_id_list) // split_size
         img_id_list_splitted = np.array_split(img_id_list, num_of_splits)
 
