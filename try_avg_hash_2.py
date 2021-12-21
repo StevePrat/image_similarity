@@ -74,16 +74,17 @@ REGION = options.reg
 PARALLEL_PROCESSES = int(options.parallel_processes)
 SPLIT_SIZE = int(options.split_size)
 
-async def read_response(response, extra_info: Any = None):
+async def read_response(response: aiohttp.ClientResponse, extra_info: Any = None):
     try:
         if response.content_type.startswith('image'):
             return await response.read()
         else:
             return None
     except Exception as e:
+        print('Failed to read response')
         print(response)
         print(extra_info)
-        raise e
+        return None
 
 async def get_images_async(url_list: List[str], loop=None) -> List[Image.Image]:
     images = []
@@ -194,6 +195,7 @@ def update_stored_hash(img_hash_map: Dict[str, imagehash.ImageHash]) -> None:
 
 def batch_img_id_generator(file_name_list: Iterable[str], split_size: int) -> List[str]:
     for file_name in file_name_list:
+        print('Opening', file_name)
         df = pd.read_csv(TO_CHECK_FOLDER + file_name, names=['grass_region','item_id','img_id'])
         img_id_list = df['img_id'].unique()
         img_id_list.sort()
