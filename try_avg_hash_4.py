@@ -133,7 +133,7 @@ def get_img_id_grp(img_id_list: Iterable[str]) -> Dict[str, Set[str]]:
 
 def get_stored_hashes(img_id_list: Iterable[str]) -> Dict[str, imagehash.ImageHash]:
     img_id_grp = get_img_id_grp(img_id_list)
-    img_hash_map = {k: None for k in img_id_list}
+    img_hash_map: Dict[str, imagehash.ImageHash] = {k: None for k in img_id_list}
     
     for img_id_head, img_id_subset in img_id_grp.items():
         file_path = STORED_HASH_FOLDER + img_id_head + '.csv'
@@ -145,10 +145,8 @@ def get_stored_hashes(img_id_list: Iterable[str]) -> Dict[str, imagehash.ImageHa
 
         if len(filtered_df) == 0:
             continue
-
-        img_hashes_to_add = filtered_df.apply(lambda x: {x['img_id']: imagehash.hex_to_hash(str(x['hash']))}, axis=1)
-        for d in img_hashes_to_add:
-            img_hash_map.update(d)
+        
+        filtered_df.apply(lambda x: img_hash_map.update({x['img_id']: imagehash.hex_to_hash(str(x['hash']))}), axis=1)
 
     return img_hash_map
 
@@ -230,7 +228,7 @@ def batch_img_id_generator(file_name_list: Iterable[str], split_size: int, split
     for file_name in file_name_list:
         print('Opening', file_name)
         df = pd.read_csv(TO_CHECK_FOLDER + file_name, names=['grass_region','item_id','img_id'])
-        df= df[df['img_id'].map(lambda x: not str(x).startswith('http'))]
+        df= df[df['img_id'].map(lambda x: set(str(x).lower()).issubset(set('0123456789abcdef')))]
         img_id_list = df['img_id'].unique().astype(str)
         img_id_list.sort()
         img_id_list: List[str] = img_id_list.tolist()
