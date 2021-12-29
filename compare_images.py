@@ -26,16 +26,31 @@ parser.add_option(
     default = None
 )
 
+parser.add_option(
+    '--folder',
+    action="store", dest="folder",
+    help="folder containing files to compare", 
+    default = None
+)
+
 options, args = parser.parse_args()
 
-THRESHOLD = options.threshold
+THRESHOLD: str = options.threshold
 if THRESHOLD is not None:
     THRESHOLD = int(THRESHOLD)
 
 PARALLEL_PROCESSES = int(options.parallel_processes)
 
 HOME_PATH = './'
-STORED_HASH_FOLDER = HOME_PATH + 'stored_hash/'
+
+STORED_HASH_FOLDER: str = options.folder
+if STORED_HASH_FOLDER is None:
+    STORED_HASH_FOLDER = HOME_PATH + 'stored_hash/'
+elif not STORED_HASH_FOLDER.startswith('/'):
+    STORED_HASH_FOLDER = HOME_PATH + STORED_HASH_FOLDER
+if not STORED_HASH_FOLDER.endswith('/'):
+    STORED_HASH_FOLDER += '/'
+
 OUTPUT_NAME = 'comparison_result.csv'
 
 def get_img_id_head(img_id: str) -> str:
@@ -142,8 +157,8 @@ def main() -> None:
         for i, file_list in enumerate(file_for_intra_compare_generator(files_to_compare, PARALLEL_PROCESSES)):
             intra_comparison_result_list = pool.map(compare_intra_file, file_list)
             if THRESHOLD is not None:
-                intra_comparison_result_list = [{k: v for k, v in intra_comparison_result.items() if v <= THRESHOLD} for intra_comparison_result in intra_comparison_result_list]
-            [comparison_result.update(intra_comparison_result) for intra_comparison_result in intra_comparison_result_list]
+                intra_comparison_result_list = [{k: v for k, v in d.items() if v <= THRESHOLD} for d in intra_comparison_result_list]
+            [comparison_result.update(d) for d in intra_comparison_result_list]
             print('[{}] Part {} done'.format(datetime.datetime.now(), i+1))
 
         ### compare with other files
@@ -151,8 +166,8 @@ def main() -> None:
         for i, combination_list in enumerate(files_for_inter_compare_generator(files_to_compare, PARALLEL_PROCESSES)):
             inter_comparison_result_list = pool.starmap(compare_inter_file, combination_list)
             if THRESHOLD is not None:
-                inter_comparison_result_list = [{k: v for k, v in inter_comparison_result.items() if v <= THRESHOLD} for inter_comparison_result in inter_comparison_result_list]
-            [comparison_result.update(inter_comparison_result) for inter_comparison_result in inter_comparison_result_list]
+                inter_comparison_result_list = [{k: v for k, v in d.items() if v <= THRESHOLD} for d in inter_comparison_result_list]
+            [comparison_result.update(d) for d in inter_comparison_result_list]
             print('[{}] Part {} done'.format(datetime.datetime.now(), i+1))
     
     print('Combining all results')
