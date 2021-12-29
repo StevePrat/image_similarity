@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*
-# imap version of try_avg_hash_4.py
+# avg hash calculation using multiprocessing pool.imap
+# writing into file is included under parallel processing
 
 import asyncio
-import enum
 from multiprocessing.sharedctypes import SynchronizedArray
 from PIL import Image
 import imagehash
-import requests
 import io
-import itertools
 import aiohttp
 from typing import *
-from tqdm import tqdm
 from multiprocessing.pool import Pool
 from multiprocessing import Array
 import datetime
@@ -19,7 +16,6 @@ import optparse
 import os
 import pandas as pd
 import numpy as np
-from collections import deque
 
 parser = optparse.OptionParser()
 

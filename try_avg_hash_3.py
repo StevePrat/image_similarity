@@ -1,13 +1,13 @@
+# -*- coding: utf-8 -*
+# avg hash calculation using multiprocessing pool.map
+# writing into file is not included under parallel processing
+
 import asyncio
-import enum
 from PIL import Image
 import imagehash
-import requests
 import io
-import itertools
 import aiohttp
 from typing import *
-from tqdm import tqdm
 from multiprocessing.pool import Pool
 import datetime
 import optparse

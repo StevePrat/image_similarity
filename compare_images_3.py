@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*
-# imap version of compare_images_2.py
+# compare images using multiprocessing pool.imap
 
-import multiprocessing
-from multiprocessing.sharedctypes import Synchronized, SynchronizedBase
+from multiprocessing.sharedctypes import SynchronizedBase
 import pandas as pd
-import numpy as np
 import imagehash
 import itertools
 from typing import *
-from tqdm import tqdm
 from multiprocessing.pool import Pool
 from multiprocessing import Value
 import datetime
 import optparse
 import os
-from collections import deque
 
 parser = optparse.OptionParser()
 

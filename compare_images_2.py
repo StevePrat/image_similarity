@@ -1,5 +1,7 @@
-import multiprocessing
-from multiprocessing.sharedctypes import Synchronized, SynchronizedBase
+# -*- coding: utf-8 -*
+# compare images using multiprocessing pool.map
+
+from multiprocessing.sharedctypes import SynchronizedBase
 import pandas as pd
 import numpy as np
 import imagehash
