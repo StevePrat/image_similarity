@@ -237,11 +237,9 @@ def batch_img_id_generator(file_name_list: Iterable[str], split_size: int, split
         img_id_split_queue.extend(img_id_splits)
 
         while len(img_id_split_queue) >= splits_per_yield:
-            img_id_sublist = [img_id_split_queue.popleft() for _ in range(splits_per_yield)]
-            yield img_id_sublist
+            yield [img_id_split_queue.popleft() for _ in range(splits_per_yield)]
         else:
-            img_id_sublist = [img_id_split_queue.popleft() for _ in range(len(img_id_split_queue))]
-            yield img_id_sublist
+            yield [img_id_split_queue.popleft() for _ in range(len(img_id_split_queue))]
 
 def main() -> None:
     print('Set up generator for image ID')
