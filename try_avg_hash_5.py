@@ -222,7 +222,7 @@ def img_hash_processing_function(img_id_list: List[str]) -> Dict[str, imagehash.
     update_stored_hash(img_hash_map)
     return img_hash_map
 
-def batch_img_id_generator(file_name_list: Iterable[str], split_size: int) -> List[str]:
+def batch_img_id_generator(file_name_list: Iterable[str], split_size: int) -> Generator[List[str], None, None]:
     for file_name in file_name_list:
         print('Opening', file_name)
         df = pd.read_csv(TO_CHECK_FOLDER + file_name, names=['grass_region','item_id','img_id'])
