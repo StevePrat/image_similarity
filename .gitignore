@@ -1,5 +1,7 @@
 get_all_img.py
 get_cover_img*
-stored_hash/*
+stored_hash*
 credentials.json
 token.json
+cross_shop_dup*
+hash_to_table*
