@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*
+# compare images (single process)
+
 import pandas as pd
-import numpy as np
 import imagehash
 import itertools
 from typing import *
-from tqdm import tqdm
 from multiprocessing.pool import Pool
 import datetime
 import optparse
